@@ -2,6 +2,8 @@
 
 Este projeto, chamado **Context Shop**, é um estudo sobre a utilização da Context API, paginação e filtros com URL state em uma aplicação **React** utilizando **Next.js**, **TypeScript** e **Tailwind CSS**.
 
+## 🔗 Projeto online [Clique para ver](https://context-shop-psi.vercel.app/)
+
 ## 🚀 Tecnologias Utilizadas
 
 - [React](https://reactjs.org/)
