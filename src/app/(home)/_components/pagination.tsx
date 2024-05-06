@@ -28,6 +28,7 @@ export const Pagination = ({
 					onClick={firstPage}
 					disabled={currentPage - 1 <= 0}
 				>
+					<span className="sr-only">First page button</span>
 					<DoubleArrowLeftIcon className="size-5" />
 				</Button>
 				<Button
@@ -36,6 +37,7 @@ export const Pagination = ({
 					onClick={previousPage}
 					disabled={currentPage - 1 <= 0}
 				>
+					<span className="sr-only">Previous page button</span>
 					<ChevronLeftIcon className="size-5" />
 				</Button>
 				<Button
@@ -44,6 +46,7 @@ export const Pagination = ({
 					onClick={nextPage}
 					disabled={currentPage + 1 > totalPages}
 				>
+					<span className="sr-only">Next page button</span>
 					<ChevronRightIcon className="size-5" />
 				</Button>
 				<Button
@@ -52,6 +55,7 @@ export const Pagination = ({
 					onClick={lastPage}
 					disabled={currentPage + 1 > totalPages}
 				>
+					<span className="sr-only">Last page button</span>
 					<DoubleArrowRightIcon className="size-5" />
 				</Button>
 			</div>
