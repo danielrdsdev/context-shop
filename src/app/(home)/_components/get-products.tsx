@@ -7,7 +7,7 @@ const getData = async (
 ): Promise<Product[] | undefined> => {
 	try {
 		const res = await fetch(
-			`https://6638fd044253a866a24fe735.mockapi.io/Products?page=${page}&limit=9&search=${search}`,
+			`${process.env.API_URL}?page=${page}&limit=9&search=${search}`,
 			{
 				next: {
 					revalidate: 60,
