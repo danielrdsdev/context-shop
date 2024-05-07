@@ -59,11 +59,17 @@ export const Cart = () => {
 						)}
 					</SheetHeader>
 
-					<div className="mt-8 flex flex-col gap-8 flex-1">
-						{products.map((product) => (
-							<CartItem key={product.id} product={product} />
-						))}
-					</div>
+					{products.length > 0 ? (
+						<div className="mt-8 flex flex-col gap-8 flex-1">
+							{products.map((product) => (
+								<CartItem key={product.id} product={product} />
+							))}
+						</div>
+					) : (
+						<p className="font-medium text-center text-sm">
+							Você não possui nenhum item na mochila.
+						</p>
+					)}
 
 					<div className="mt-auto">
 						<Button className="w-full">Finalizar compra</Button>
