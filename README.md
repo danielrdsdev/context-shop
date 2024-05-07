@@ -22,6 +22,7 @@ O **Context Shop** é um mini e-commerce que fornece diversas funcionalidades, i
 - Deletar produto do carrinho
 - Esvaziar carrinho
 - Validações com modal de confirmação
+- Skeleton loading
 
 Este projeto tem como objetivo aprofundar o conhecimento nas tecnologias mencionadas acima, focando na utilização da Context API para gerenciamento de estado, implementação de paginação e a utilização de filtros com URL state.
 

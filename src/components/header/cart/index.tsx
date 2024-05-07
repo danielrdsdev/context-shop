@@ -41,7 +41,7 @@ export const Cart = () => {
 						<BackpackIcon className="size-5" />
 						<span className="sr-only">Cart icon</span>
 						{products.length > 0 && (
-							<span className="absolute -left-2 -top-2 size-5 text-sm font-medium rounded-full bg-primary flex items-center justify-center">
+							<span className="absolute -left-2 -top-2 size-5 text-sm font-medium rounded-full bg-primary text-primary-foreground flex items-center justify-center">
 								{products.length}
 							</span>
 						)}

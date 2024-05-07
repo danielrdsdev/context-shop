@@ -1,5 +1,4 @@
 "use client";
-import { CartContext } from "@/components/providers/cart";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -13,27 +12,28 @@ import {
 import { Button } from "@/components/ui/button";
 import { formattedCurrency } from "@/helpers/format-currency";
 import { Product } from "@/types";
+import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useProduct } from "../_hooks/use-product";
 
 type ProductDetailsProps = {
 	product: Product;
 };
 
 export const ProductDetails = ({ product }: ProductDetailsProps) => {
-	const [isOpen, setIsOpen] = useState(false);
-	const { handleAddToCart } = useContext(CartContext);
+	const {
+		handleAddToCartClick,
+		handleDecreaseProduct,
+		handleIncreaseProduct,
+		handleOpenClick,
+		isOpen,
+		setIsOpen,
+		amount,
+	} = useProduct();
 
-	const handleOpenClick = () => {
-		setIsOpen((prev) => !prev);
-	};
-
-	const handleAddToCartClick = () => {
-		handleAddToCart(product);
-	};
 	return (
 		<>
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:bg-muted/40 lg:border lg:p-8 lg:rounded-lg">
 				<div className="relative w-full h-[20rem] lg:h-[30rem] rounded-lg overflow-hidden">
 					<Image
 						src={product.imageUrl}
@@ -51,6 +51,31 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 						<p className="text-muted-foreground text-sm lg:text-base">
 							{product.description}
 						</p>
+					</div>
+
+					<div className="flex items-center">
+						<Button
+							size="icon"
+							variant="outline"
+							onClick={handleDecreaseProduct}
+							disabled={amount === 1}
+						>
+							<MinusIcon className="size-4" />
+							<span className="sr-only">Button plus</span>
+						</Button>
+
+						<span className="w-10 flex items-center justify-center">
+							{amount}
+						</span>
+
+						<Button
+							size="icon"
+							variant="outline"
+							onClick={handleIncreaseProduct}
+						>
+							<PlusIcon className="size-4" />
+							<span className="sr-only">Button plus</span>
+						</Button>
 					</div>
 					<p className="text-xl lg:text-3xl font-semibold">
 						{formattedCurrency(product.price)}
@@ -71,7 +96,7 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancelar</AlertDialogCancel>
-						<AlertDialogAction onClick={handleAddToCartClick}>
+						<AlertDialogAction onClick={() => handleAddToCartClick(product)}>
 							Continuar
 						</AlertDialogAction>
 					</AlertDialogFooter>

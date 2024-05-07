@@ -5,5 +5,4 @@ export type Product = {
 	imageUrl: string;
 	createdAt: string;
 	id: string;
-	slug: string;
 };
