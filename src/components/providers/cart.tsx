@@ -47,7 +47,7 @@ export const CartContextProvider = ({
 
 	const subtotal = useMemo(() => {
 		return products.reduce((acc, product) => {
-			return acc + Number(product.price) * product.quantity;
+			return acc + product.price * product.quantity;
 		}, 0);
 	}, [products]);
 
