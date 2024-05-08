@@ -49,15 +49,15 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 						className="object-cover aspect-square"
 					/>
 
-					<div className="absolute bottom-2 flex w-full items-center justify-center">
-						<div className="flex gap-4 rounded-lg p-4 bg-background/80 backdrop-blur-sm">
+					<div className="absolute bottom-3 flex w-full items-center justify-center">
+						<div className="flex gap-4 rounded-lg p-2 lg:p-3 bg-background/80 backdrop-blur-sm">
 							{product.imageUrl.map((imageUrl, i) => (
 								<button
 									key={`Imagem  ${i + 1}`}
 									onClick={() => handleChangeImage(imageUrl)}
 									type="button"
 									data-active={imageUrl === currentImage}
-									className="size-20 rounded-lg overflow-hidden flex items-center justify-center bg-muted border-2 border-transparent data-[active=true]:border-primary"
+									className="size-12 lg:size-16 rounded-lg overflow-hidden flex items-center justify-center bg-muted border-2 border-transparent data-[active=true]:border-primary"
 								>
 									<Image
 										src={imageUrl}
