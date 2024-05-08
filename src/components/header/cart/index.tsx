@@ -19,23 +19,21 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet";
+import { useDialogOpen } from "@/hooks/use-dialog-open";
 import { BackpackIcon } from "@radix-ui/react-icons";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { CartItem } from "./cart-item";
 
 export const Cart = () => {
-	const { products, isOpen, setIsOpen, handleEmptyCard } =
+	const { products, sheetIsOpen, setSheetIsOpen, emptyCart } =
 		useContext(CartContext);
 
-	const [dialogOpen, setDialogOpen] = useState(false);
-
-	const handleDialogOpenClick = () => {
-		setDialogOpen((prev) => !prev);
-	};
+	const { dialogIsOpen, setDialogIsOpen, handleDialogOpenClick } =
+		useDialogOpen();
 
 	return (
 		<>
-			<Sheet open={isOpen} onOpenChange={setIsOpen}>
+			<Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
 				<SheetTrigger asChild>
 					<Button size="icon" variant="outline" className="relative">
 						<BackpackIcon className="size-5" />
@@ -77,7 +75,7 @@ export const Cart = () => {
 				</SheetContent>
 			</Sheet>
 
-			<AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+			<AlertDialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>Tem certeza disso?</AlertDialogTitle>
@@ -87,9 +85,7 @@ export const Cart = () => {
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancelar</AlertDialogCancel>
-						<AlertDialogAction onClick={handleEmptyCard}>
-							Continuar
-						</AlertDialogAction>
+						<AlertDialogAction onClick={emptyCart}>Continuar</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>

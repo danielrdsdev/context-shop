@@ -3,29 +3,37 @@ import { Product } from "@/types";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
+export interface ProductWithQuantity extends Product {
+	quantity: number;
+}
+
 type ICartContextProvider = {
-	products: Product[];
-	isOpen: boolean;
-	setIsOpen: (value: boolean) => void;
-	handleAddToCart: (value: Product) => void;
-	handleDeleteItemToCart: (id: string) => void;
-	handleEmptyCard: () => void;
+	products: ProductWithQuantity[];
+	sheetIsOpen: boolean;
+	setSheetIsOpen: (value: boolean) => void;
+	addProductToCart: (value: ProductWithQuantity) => void;
+	decreaseProductQuantity: (productId: string) => void;
+	increaseProductQuantity: (productId: string) => void;
+	deleteItemFromCart: (productId: string) => void;
+	emptyCart: () => void;
 };
 
 export const CartContext = createContext<ICartContextProvider>({
 	products: [],
-	isOpen: false,
-	setIsOpen: () => {},
-	handleAddToCart: () => {},
-	handleDeleteItemToCart: () => {},
-	handleEmptyCard: () => {},
+	sheetIsOpen: false,
+	setSheetIsOpen: () => {},
+	addProductToCart: () => {},
+	decreaseProductQuantity: () => {},
+	increaseProductQuantity: () => {},
+	deleteItemFromCart: () => {},
+	emptyCart: () => {},
 });
 
 export const CartContextProvider = ({
 	children,
 }: { children: React.ReactNode }) => {
-	const [products, setProducts] = useState<Product[]>([]);
-	const [isOpen, setIsOpen] = useState(false);
+	const [products, setProducts] = useState<ProductWithQuantity[]>([]);
+	const [sheetIsOpen, setSheetIsOpen] = useState(false);
 
 	useEffect(() => {
 		setProducts(JSON.parse(localStorage.getItem("get-products") || "[]"));
@@ -35,28 +43,74 @@ export const CartContextProvider = ({
 		localStorage.setItem("get-products", JSON.stringify(products));
 	}, [products]);
 
-	const handleAddToCart = (value: Product) => {
-		const alreadyExists = products.some((product) => product.id === value.id);
+	const addProductToCart = (product: ProductWithQuantity) => {
+		const alreadyExists = products.some(
+			(cartProduct) => cartProduct.id === product.id,
+		);
+
+		setSheetIsOpen((prev) => !prev);
+
+		toast.success("Item adicionado com sucesso!");
 
 		if (alreadyExists) {
-			toast.error("Produto já existe no seu carrinho!");
+			setProducts((prev) =>
+				prev.map((cartProduct) => {
+					if (cartProduct.id === product.id) {
+						return {
+							...cartProduct,
+							quantity: cartProduct.quantity + product.quantity,
+						};
+					}
+
+					return cartProduct;
+				}),
+			);
+
 			return;
 		}
 
-		setProducts((prev) => [...prev, value]);
-
-		setIsOpen((prev) => !prev);
-
-		toast.success("Item adicionado com sucesso!");
+		setProducts((prev) => [...prev, product]);
 	};
 
-	const handleDeleteItemToCart = (id: string) => {
-		setProducts((prev) => prev.filter((product) => product.id !== id));
+	const decreaseProductQuantity = (productId: string) => {
+		setProducts((prev) =>
+			prev
+				.map((cartProduct) => {
+					if (cartProduct.id === productId) {
+						return {
+							...cartProduct,
+							quantity: cartProduct.quantity - 1,
+						};
+					}
+
+					return cartProduct;
+				})
+				.filter((cartProduct) => cartProduct.quantity > 0),
+		);
+	};
+
+	const increaseProductQuantity = (productId: string) => {
+		setProducts((prev) =>
+			prev.map((cartProduct) => {
+				if (cartProduct.id === productId) {
+					return {
+						...cartProduct,
+						quantity: cartProduct.quantity + 1,
+					};
+				}
+
+				return cartProduct;
+			}),
+		);
+	};
+
+	const deleteItemFromCart = (productId: string) => {
+		setProducts((prev) => prev.filter((product) => product.id !== productId));
 
 		toast.success("Produto removido com sucesso!");
 	};
 
-	const handleEmptyCard = () => {
+	const emptyCart = () => {
 		setProducts([]);
 
 		toast.success("Mochila esvaziada com sucesso!");
@@ -66,11 +120,13 @@ export const CartContextProvider = ({
 		<CartContext.Provider
 			value={{
 				products,
-				handleAddToCart,
-				isOpen,
-				setIsOpen,
-				handleDeleteItemToCart,
-				handleEmptyCard,
+				addProductToCart,
+				sheetIsOpen,
+				setSheetIsOpen,
+				decreaseProductQuantity,
+				increaseProductQuantity,
+				deleteItemFromCart,
+				emptyCart,
 			}}
 		>
 			{children}

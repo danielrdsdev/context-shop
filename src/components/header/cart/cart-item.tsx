@@ -1,4 +1,4 @@
-import { CartContext } from "@/components/providers/cart";
+import { CartContext, ProductWithQuantity } from "@/components/providers/cart";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -11,21 +11,31 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { formattedCurrency } from "@/helpers/format-currency";
-import { Product } from "@/types";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { MinusIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useContext, useState } from "react";
 
 type CartItemProps = {
-	product: Product;
+	product: ProductWithQuantity;
 };
 
 export const CartItem = ({ product }: CartItemProps) => {
-	const { handleDeleteItemToCart } = useContext(CartContext);
-	const [isOpen, setIsOpen] = useState(false);
+	const {
+		decreaseProductQuantity,
+		increaseProductQuantity,
+		deleteItemFromCart,
+	} = useContext(CartContext);
+	const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
-	const handleOpenClick = () => {
-		setIsOpen((prev) => !prev);
+	const handleDialogOpenClick = () => {
+		setDialogIsOpen((prev) => !prev);
+	};
+
+	const handleDecreaseProductQuantity = () => {
+		decreaseProductQuantity(product.id);
+	};
+	const handleIncreaseProductQuantity = () => {
+		increaseProductQuantity(product.id);
 	};
 
 	return (
@@ -42,21 +52,50 @@ export const CartItem = ({ product }: CartItemProps) => {
 					/>
 				</div>
 
-				<div className="flex-1 overflow-hidden">
+				<div className="flex-1 flex flex-col overflow-hidden">
 					<h2 className="font-semibold truncate">{product.name}</h2>
 					<p className="text-sm text-muted-foreground">
 						{formattedCurrency(product.price)}
 					</p>
+
+					<div className="flex items-center">
+						<Button
+							size="icon"
+							variant="outline"
+							onClick={handleDecreaseProductQuantity}
+							disabled={product.quantity === 1}
+						>
+							<MinusIcon className="size-4" />
+							<span className="sr-only">Button plus</span>
+						</Button>
+
+						<span className="w-10 flex items-center justify-center">
+							{product.quantity}
+						</span>
+
+						<Button
+							size="icon"
+							variant="outline"
+							onClick={handleIncreaseProductQuantity}
+						>
+							<PlusIcon className="size-4" />
+							<span className="sr-only">Button plus</span>
+						</Button>
+					</div>
 				</div>
 
 				<div className="ml-auto">
-					<Button size="icon" variant="destructive" onClick={handleOpenClick}>
+					<Button
+						size="icon"
+						variant="destructive"
+						onClick={handleDialogOpenClick}
+					>
 						<TrashIcon className="size-5" />
 					</Button>
 				</div>
 			</div>
 
-			<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+			<AlertDialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>
@@ -68,9 +107,7 @@ export const CartItem = ({ product }: CartItemProps) => {
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancelar</AlertDialogCancel>
-						<AlertDialogAction
-							onClick={() => handleDeleteItemToCart(product.id)}
-						>
+						<AlertDialogAction onClick={() => deleteItemFromCart(product.id)}>
 							Continue
 						</AlertDialogAction>
 					</AlertDialogFooter>

@@ -1,4 +1,5 @@
 "use client";
+import { CartContext } from "@/components/providers/cart";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -11,30 +12,31 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { formattedCurrency } from "@/helpers/format-currency";
+import { useDialogOpen } from "@/hooks/use-dialog-open";
+import { useProductQuantity } from "@/hooks/use-product-quantity";
 import { Product } from "@/types";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { useState } from "react";
-import { useProduct } from "../_hooks/use-product";
+import { useContext, useState } from "react";
 
 type ProductDetailsProps = {
 	product: Product;
 };
 
 export const ProductDetails = ({ product }: ProductDetailsProps) => {
-	const {
-		handleAddToCartClick,
-		handleDecreaseProduct,
-		handleIncreaseProduct,
-		handleOpenClick,
-		isOpen,
-		setIsOpen,
-		amount,
-	} = useProduct();
+	const { dialogIsOpen, setDialogIsOpen, handleDialogOpenClick } =
+		useDialogOpen();
 	const [currentImage, setCurrentImage] = useState(product.imageUrl[0]);
+	const { quantity, handleDecreaseQuantity, handleIncreaseQuantity } =
+		useProductQuantity();
+	const { addProductToCart } = useContext(CartContext);
 
 	const handleChangeImage = (image: string) => {
 		setCurrentImage(image);
+	};
+
+	const handleAddProductToCart = () => {
+		addProductToCart({ ...product, quantity });
 	};
 
 	return (
@@ -86,21 +88,21 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 						<Button
 							size="icon"
 							variant="outline"
-							onClick={handleDecreaseProduct}
-							disabled={amount === 1}
+							onClick={handleDecreaseQuantity}
+							disabled={quantity === 1}
 						>
 							<MinusIcon className="size-4" />
 							<span className="sr-only">Button plus</span>
 						</Button>
 
 						<span className="w-10 flex items-center justify-center">
-							{amount}
+							{quantity}
 						</span>
 
 						<Button
 							size="icon"
 							variant="outline"
-							onClick={handleIncreaseProduct}
+							onClick={handleIncreaseQuantity}
 						>
 							<PlusIcon className="size-4" />
 							<span className="sr-only">Button plus</span>
@@ -109,13 +111,13 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 					<p className="text-xl lg:text-3xl font-semibold">
 						{formattedCurrency(product.price)}
 					</p>
-					<Button className="w-full" onClick={handleOpenClick}>
+					<Button className="w-full" onClick={handleDialogOpenClick}>
 						Comprar produto
 					</Button>
 				</div>
 			</div>
 
-			<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+			<AlertDialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>Confirmar compra do produto</AlertDialogTitle>
@@ -125,7 +127,7 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancelar</AlertDialogCancel>
-						<AlertDialogAction onClick={() => handleAddToCartClick(product)}>
+						<AlertDialogAction onClick={handleAddProductToCart}>
 							Continuar
 						</AlertDialogAction>
 					</AlertDialogFooter>
