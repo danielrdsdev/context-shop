@@ -1,6 +1,6 @@
 "use client";
 import { Product } from "@/types";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 export interface ProductWithQuantity extends Product {
@@ -10,6 +10,7 @@ export interface ProductWithQuantity extends Product {
 type ICartContextProvider = {
 	products: ProductWithQuantity[];
 	sheetIsOpen: boolean;
+	subtotal: number;
 	setSheetIsOpen: (value: boolean) => void;
 	addProductToCart: (value: ProductWithQuantity) => void;
 	decreaseProductQuantity: (productId: string) => void;
@@ -21,6 +22,7 @@ type ICartContextProvider = {
 export const CartContext = createContext<ICartContextProvider>({
 	products: [],
 	sheetIsOpen: false,
+	subtotal: 0,
 	setSheetIsOpen: () => {},
 	addProductToCart: () => {},
 	decreaseProductQuantity: () => {},
@@ -41,6 +43,12 @@ export const CartContextProvider = ({
 
 	useEffect(() => {
 		localStorage.setItem("get-products", JSON.stringify(products));
+	}, [products]);
+
+	const subtotal = useMemo(() => {
+		return products.reduce((acc, product) => {
+			return acc + Number(product.price) * product.quantity;
+		}, 0);
 	}, [products]);
 
 	const addProductToCart = (product: ProductWithQuantity) => {
@@ -123,6 +131,7 @@ export const CartContextProvider = ({
 				addProductToCart,
 				sheetIsOpen,
 				setSheetIsOpen,
+				subtotal,
 				decreaseProductQuantity,
 				increaseProductQuantity,
 				deleteItemFromCart,

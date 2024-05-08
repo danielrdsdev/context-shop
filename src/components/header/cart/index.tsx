@@ -19,13 +19,14 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet";
+import { formattedCurrency } from "@/helpers/format-currency";
 import { useDialogOpen } from "@/hooks/use-dialog-open";
 import { BackpackIcon } from "@radix-ui/react-icons";
 import { useContext } from "react";
 import { CartItem } from "./cart-item";
 
 export const Cart = () => {
-	const { products, sheetIsOpen, setSheetIsOpen, emptyCart } =
+	const { products, sheetIsOpen, setSheetIsOpen, emptyCart, subtotal } =
 		useContext(CartContext);
 
 	const { isDialogOpen, setIsDialogOpen, handleDialogOpenClick } =
@@ -58,20 +59,27 @@ export const Cart = () => {
 					</SheetHeader>
 
 					{products.length > 0 ? (
-						<div className="mt-8 flex flex-col gap-8 flex-1">
-							{products.map((product) => (
-								<CartItem key={product.id} product={product} />
-							))}
-						</div>
+						<>
+							<div className="mt-8 flex flex-col gap-8 flex-1">
+								{products.map((product) => (
+									<CartItem key={product.id} product={product} />
+								))}
+							</div>
+
+							<div className="mt-auto space-y-8">
+								<div className="flex items-center justify-between border-y py-4">
+									<h3 className="font-semibold">Total:</h3>
+									<p>{formattedCurrency(subtotal)}</p>
+								</div>
+
+								<Button className="w-full">Finalizar compra</Button>
+							</div>
+						</>
 					) : (
 						<p className="font-medium text-center text-sm">
 							Você não possui nenhum item na mochila.
 						</p>
 					)}
-
-					<div className="mt-auto">
-						<Button className="w-full">Finalizar compra</Button>
-					</div>
 				</SheetContent>
 			</Sheet>
 
