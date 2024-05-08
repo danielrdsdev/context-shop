@@ -28,7 +28,7 @@ export const Cart = () => {
 	const { products, sheetIsOpen, setSheetIsOpen, emptyCart } =
 		useContext(CartContext);
 
-	const { dialogIsOpen, setDialogIsOpen, handleDialogOpenClick } =
+	const { isDialogOpen, setIsDialogOpen, handleDialogOpenClick } =
 		useDialogOpen();
 
 	return (
@@ -75,7 +75,7 @@ export const Cart = () => {
 				</SheetContent>
 			</Sheet>
 
-			<AlertDialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
+			<AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>Tem certeza disso?</AlertDialogTitle>
