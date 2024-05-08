@@ -24,7 +24,7 @@ type ProductDetailsProps = {
 };
 
 export const ProductDetails = ({ product }: ProductDetailsProps) => {
-	const { dialogIsOpen, setDialogIsOpen, handleDialogOpenClick } =
+	const { isDialogOpen, setIsDialogOpen, handleDialogOpenClick } =
 		useDialogOpen();
 	const [currentImage, setCurrentImage] = useState(product.imageUrl[0]);
 	const { quantity, handleDecreaseQuantity, handleIncreaseQuantity } =
@@ -117,7 +117,7 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 				</div>
 			</div>
 
-			<AlertDialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
+			<AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>Confirmar compra do produto</AlertDialogTitle>

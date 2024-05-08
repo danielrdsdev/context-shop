@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 export const useDialogOpen = () => {
-	const [dialogIsOpen, setDialogIsOpen] = useState(false);
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 	const handleDialogOpenClick = () => {
-		setDialogIsOpen((prev) => !prev);
+		setIsDialogOpen((prev) => !prev);
 	};
 	return {
-		dialogIsOpen,
-		setDialogIsOpen,
+		isDialogOpen,
+		setIsDialogOpen,
 		handleDialogOpenClick,
 	};
 };

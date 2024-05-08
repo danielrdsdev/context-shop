@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { formattedCurrency } from "@/helpers/format-currency";
+import { useDialogOpen } from "@/hooks/use-dialog-open";
 import { MinusIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 type CartItemProps = {
 	product: ProductWithQuantity;
@@ -25,11 +26,8 @@ export const CartItem = ({ product }: CartItemProps) => {
 		increaseProductQuantity,
 		deleteItemFromCart,
 	} = useContext(CartContext);
-	const [dialogIsOpen, setDialogIsOpen] = useState(false);
-
-	const handleDialogOpenClick = () => {
-		setDialogIsOpen((prev) => !prev);
-	};
+	const { isDialogOpen, setIsDialogOpen, handleDialogOpenClick } =
+		useDialogOpen();
 
 	const handleDecreaseProductQuantity = () => {
 		decreaseProductQuantity(product.id);
@@ -52,11 +50,13 @@ export const CartItem = ({ product }: CartItemProps) => {
 					/>
 				</div>
 
-				<div className="flex-1 flex flex-col overflow-hidden">
-					<h2 className="font-semibold truncate">{product.name}</h2>
-					<p className="text-sm text-muted-foreground">
-						{formattedCurrency(product.price)}
-					</p>
+				<div className="flex-1 flex flex-col space-y-2 overflow-hidden">
+					<div>
+						<h2 className="font-semibold truncate">{product.name}</h2>
+						<p className="text-sm text-muted-foreground">
+							{formattedCurrency(product.price)}
+						</p>
+					</div>
 
 					<div className="flex items-center">
 						<Button
@@ -95,7 +95,7 @@ export const CartItem = ({ product }: CartItemProps) => {
 				</div>
 			</div>
 
-			<AlertDialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
+			<AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>
