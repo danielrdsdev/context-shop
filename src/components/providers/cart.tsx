@@ -1,6 +1,6 @@
 "use client";
 import { Product } from "@/types";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 type ICartContextProvider = {
@@ -26,6 +26,14 @@ export const CartContextProvider = ({
 }: { children: React.ReactNode }) => {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [isOpen, setIsOpen] = useState(false);
+
+	useEffect(() => {
+		setProducts(JSON.parse(localStorage.getItem("get-products") || "[]"));
+	}, []);
+
+	useEffect(() => {
+		localStorage.setItem("get-products", JSON.stringify(products));
+	}, [products]);
 
 	const handleAddToCart = (value: Product) => {
 		const alreadyExists = products.some((product) => product.id === value.id);
