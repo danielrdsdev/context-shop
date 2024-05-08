@@ -42,7 +42,7 @@ export const CartItem = ({ product }: CartItemProps) => {
 					/>
 				</div>
 
-				<div className="flex-1">
+				<div className="flex-1 overflow-hidden">
 					<h2 className="font-semibold truncate">{product.name}</h2>
 					<p className="text-sm text-muted-foreground">
 						{formattedCurrency(product.price)}
