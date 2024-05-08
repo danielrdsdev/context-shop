@@ -2,7 +2,7 @@ import { CartContext } from "@/components/providers/cart";
 import { Product } from "@/types";
 import { useContext, useState } from "react";
 
-export const useProduct = () => {
+export const useProduct = (product?: Product) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [amount, setAmount] = useState(1);
 	const { handleAddToCart } = useContext(CartContext);

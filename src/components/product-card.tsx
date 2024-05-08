@@ -13,7 +13,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 		<div className="bg-muted/50 border rounded-md p-6 space-y-4">
 			<div className="relative w-full h-[15rem] rounded-md overflow-hidden">
 				<Image
-					src={product.imageUrl}
+					src={product.imageUrl[0]}
 					alt={product.name}
 					fill
 					quality={100}

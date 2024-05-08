@@ -33,7 +33,7 @@ export const CartItem = ({ product }: CartItemProps) => {
 			<div className="flex items-center gap-4">
 				<div className="relative size-24 rounded-md overflow-hidden">
 					<Image
-						src={product.imageUrl}
+						src={product.imageUrl[0]}
 						alt={product.name}
 						fill
 						sizes="96px"
