@@ -1,4 +1,4 @@
-import { ProductId, ProductWithQuantity } from "@/components/providers/cart";
+import { ProductId, ProductWithQuantity } from "@/providers/cart";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 

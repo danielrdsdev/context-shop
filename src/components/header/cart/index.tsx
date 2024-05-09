@@ -1,5 +1,4 @@
 "use client";
-import { CartContext } from "@/components/providers/cart";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -21,6 +20,7 @@ import {
 } from "@/components/ui/sheet";
 import { formattedCurrency } from "@/helpers/format-currency";
 import { useDialogOpen } from "@/hooks/use-dialog-open";
+import { CartContext } from "@/providers/cart";
 import { BackpackIcon } from "@radix-ui/react-icons";
 import { useContext } from "react";
 import { CartItem } from "./cart-item";

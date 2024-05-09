@@ -1,5 +1,4 @@
 "use client";
-import { CartContext } from "@/components/providers/cart";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -14,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { formattedCurrency } from "@/helpers/format-currency";
 import { useDialogOpen } from "@/hooks/use-dialog-open";
 import { useProductQuantity } from "@/hooks/use-product-quantity";
+import { CartContext } from "@/providers/cart";
 import { Product } from "@/types";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import Image from "next/image";

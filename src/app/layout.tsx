@@ -2,8 +2,8 @@ import "@/styles/globals.css";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
-import { Provider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
+import { Provider } from "@/providers";
 import { anton, inter } from "@/styles/fonts";
 import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
