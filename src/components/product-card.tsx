@@ -16,7 +16,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 					src={product.imageUrl[0]}
 					alt={product.name}
 					fill
-					quality={100}
+					quality={80}
+					priority
 					sizes="(max-width: 648px) 100vw, (max-width: 1024px) 50vw, 33vw"
 					className="object-cover aspect-square"
 				/>
