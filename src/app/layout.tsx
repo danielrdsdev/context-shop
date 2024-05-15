@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Provider } from "@/providers";
 import { anton, inter } from "@/styles/fonts";
 import type { Metadata } from "next";
+import { ViewTransitions } from "next-view-transitions";
 import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
@@ -19,17 +20,19 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" suppressHydrationWarning>
-			<body className={`${inter.variable} ${anton.variable}`}>
-				<Provider>
-					<NextTopLoader color="#DC2727" />
-					<Header />
-					<main className="flex-1 container py-16">{children}</main>
-					<Footer />
+		<ViewTransitions>
+			<html lang="en" suppressHydrationWarning>
+				<body className={`${inter.variable} ${anton.variable}`}>
+					<Provider>
+						<NextTopLoader color="#DC2727" />
+						<Header />
+						<main className="flex-1 container py-16">{children}</main>
+						<Footer />
 
-					<Toaster />
-				</Provider>
-			</body>
-		</html>
+						<Toaster />
+					</Provider>
+				</body>
+			</html>
+		</ViewTransitions>
 	);
 }

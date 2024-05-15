@@ -1,7 +1,7 @@
 import { formattedCurrency } from "@/helpers/format-currency";
 import { Product } from "@/types";
+import { Link } from "next-view-transitions";
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "./ui/button";
 
 type ProductCardProps = {
